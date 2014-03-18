@@ -88,9 +88,9 @@ def erat(n, option=1):
 
 
 if __name__ == '__main__':
-    print erat(20,2)
-    n = 100000000
-    print 'Testing run time with n = ' + str(n)
+    print 'Primes to 20, called with option 2 are ' + str(erat(20,2))
+    n = 1000000
+    print 'Testing run time with option 2 and n = ' + str(n)
     startTime = time.time()
     erat(n,2)
     stopTime = time.time()
