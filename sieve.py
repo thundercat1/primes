@@ -1,0 +1,66 @@
+import sys
+import time
+
+def erat(n, option=1):
+    """
+    Takes an integer n and returns a list of prime numbers up to and including n.
+    Supports a second optional argument of int either 1 or 2. If 2 is specified,
+    returns the first n prime numbers.
+
+    Computing the primes implements the Sieve of Eratosthenes algorithm
+
+    (int, int(optional)) --> list(int)
+    >>>erat(10)
+    [1,2,3,5,7]
+
+    >>>erat(19)
+    [1,2,3,5,7,11,13,17,19]
+
+    >>>erat(10,2)
+    [1,2,3,5,7,11,13,17,19,23]
+    """
+
+    assert n > 3, 'Use this sieve to find more than three primes. You asked for ' + str(n)
+                      
+    if option==1:
+        
+        #Initialize array for sieve. At this point, all odd values are candidates
+        #Treat indices as odd values starting at 1
+        #[0,1,2,3,4,5,6] --> [1,3,5,7,9,11,13]
+        #If we're eliminating 
+        candidates = [True]*(1 + n/2)
+        
+        #Begin by looking for multiples of three to eliminate
+        prime = 3
+        primes = [1,2,3]
+
+        while prime * prime <= n:
+            #Start with the third multiple (second multiple is even so it's already been eliminated)
+            for eliminate in range(prime*prime,n,prime*2): 
+                #eliminate all odd multiples of the current prime, beginning with its square
+                candidates[eliminate/2] = False
+
+            #Increment prime to the next True value in candidate array:
+            prime += 2
+            while not candidates[prime/2]:
+                #keep looking for the next prime number
+                prime += 2
+            primes.append(prime)
+
+        prime = primes[len(primes)-1] + 2
+        while  prime <= n:
+            if candidates[prime/2]:
+                primes.append(prime)
+            prime += 2
+
+        return primes
+
+if __name__ == '__main__':
+    n = 100000
+    print 'Testing run time with n = ' + str(n)
+    startTime = time.time()
+    erat(n)
+    stopTime = time.time()
+    print 'Run time: ' + str(stopTime - startTime)
+    
+
